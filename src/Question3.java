@@ -32,7 +32,7 @@ public class Question3 {
 
                    }
                }
-        System.out.println("Scenario 3: The Extra conceded by all teams in 2016");
+        System.out.println("Scenario 3: The Extra runs conceded by all teams in 2016");
         for(String key : extraRunsConceded.keySet()){
             System.out.println(key +" - "+extraRunsConceded.get(key));
         }
