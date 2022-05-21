@@ -19,19 +19,26 @@ public class Question3 {
         while((matchesLine= br1.readLine())!=null){
            String [] matchesRecord=matchesLine.split(",");
            if (reqYear.equals(matchesRecord[1])){
-//               while((deliveriesLine= br2.readLine())!=null){
-//                   String [] deliveryRecords=deliveriesLine.split(",");
-//                   if (matchesRecord[0]==deliveryRecords[0]){
-//                       int counter=extraRunsConceded.containsKey(deliveryRecords[3])?extraRunsConceded.get(deliveryRecords[3]):0;
-//                       extraRunsConceded.put(deliveryRecords[3], Integer.valueOf(counter+deliveryRecords[16]));
 //
-//                   }
-//               }
                reqYearRecords.add(matchesRecord[0]);
 
            }
         }
-        System.out.println(reqYearRecords);
+        while((deliveriesLine= br2.readLine())!=null){
+                   String [] deliveryRecords=deliveriesLine.split(",");
+
+                   if (reqYearRecords.contains(deliveryRecords[0])){
+                       int counter=extraRunsConceded.containsKey(deliveryRecords[3])?extraRunsConceded.get(deliveryRecords[3]):0;
+                       extraRunsConceded.put(deliveryRecords[3], counter+Integer.parseInt(deliveryRecords[16]));
+
+                   }
+               }
+        System.out.println("Scenario 3: The Extra conceded by all teams in 2016");
+        for(String key : extraRunsConceded.keySet()){
+            System.out.println(key +" - "+extraRunsConceded.get(key));
+        }
+        }
+
 
     }
-}
+
