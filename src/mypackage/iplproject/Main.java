@@ -23,13 +23,15 @@ public class Main {
     }
 
     private static void findNumberOfMatchesPlayedPerYear(List<Match> matches) {
-        HashMap<String, Integer> matchesPlayedInYear = new HashMap<String, Integer>();
+        HashMap<String, Integer> matchesPlayedPerYear = new HashMap<String, Integer>();
 
         for (int i=0;i<matches.size();i++){
-            int count = matchesPlayedInYear.containsKey([1]) ? matchesPlayedInYear.get(matches.get(i)[0]) : 0;
-            matchesPlayedInYear.put(values[1], count + 1);
-        }
+            String year= String.valueOf(matches.get(i));
 
+            int count = matchesPlayedPerYear.containsKey(matches.get(i).getSeason()) ? matchesPlayedPerYear.get(matches.get(i).getSeason()): 0;
+            matchesPlayedPerYear.put(matches.get(i).getSeason(), count + 1);
+        }
+        System.out.println(matchesPlayedPerYear);
     }
 
     private static void findNumberOfMatchesWonByTeamsOverAllYears(List<Match> matches) {

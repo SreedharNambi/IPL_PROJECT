@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 public class Question1and2 {
     public static void main(String[] args) throws IOException {
-        String path = "/home/sreedhar/IdeaProjects/Project1/src/matches.csv";
+        String path = "/home/sreedhar/IdeaProjects/Project1/matches.csv";
         String line = "";
 //        Scenario 1 :- No. of matches played in a year by all teams.
         HashMap<String, Integer> matchesPlayedInYear = new HashMap<String, Integer>();
