@@ -118,7 +118,21 @@ public class Main {
     }
 
     private static void findNumberOfMatchesWonByTeamInHomeGround(List<Match> matches) {
+        //Team I have chosen is SunRisers Hyderabad and their homeground is Hyderabad
+        String team ="Sunrisers Hyderabad";
+        String homeGround="Hyderabad";
+        Integer numberOfMatchesWon=0;
+        for (int i=0;i<matches.size();i++){
+            if (team.equals(matches.get(i).getWinningTeam())){
+                if(homeGround.equals(matches.get(i).getCity())){
+                    numberOfMatchesWon += 1;
+                }
+            }{
 
+            }
+
+        }
+        System.out.println("Number of matches won by Sunrisers Hyderabad in Hyderabad is " + numberOfMatchesWon);
     }
 
 
