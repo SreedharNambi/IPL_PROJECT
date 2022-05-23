@@ -9,15 +9,14 @@ import java.util.List;
 
 public class Main {
     public static void main(String[] args) throws IOException {
-    List<Match> matches = fetchMatchesData();
-    List<Delivery> deliveries=fetchDeliveriesData();
-    
-    findNumberOfMatchesPlayedPerYear(matches);
-    findNumberOfMatchesWonByTeamsOverAllYears(matches);
-    findNumberOfExtraRunsConcededByTeamIn2016(matches,deliveries);
-    findMostEconomicalBowlerIn2015(matches,deliveries);
-    findNumberOfMatchesWonByTeamInHomeGround(matches);
+        List<Match> matches = fetchMatchesData();
+        List<Delivery> deliveries = fetchDeliveriesData();
 
+        findNumberOfMatchesPlayedPerYear(matches);
+        findNumberOfMatchesWonByTeamsOverAllYears(matches);
+        findNumberOfExtraRunsConcededByTeamIn2016(matches, deliveries);
+        findMostEconomicalBowlerIn2015(matches, deliveries);
+        findNumberOfMatchesWonByTeamInHomeGround(matches);
 
 
     }
@@ -25,16 +24,33 @@ public class Main {
     private static void findNumberOfMatchesPlayedPerYear(List<Match> matches) {
         HashMap<String, Integer> matchesPlayedPerYear = new HashMap<String, Integer>();
 
-        for (int i=0;i<matches.size();i++){
-            String year= String.valueOf(matches.get(i));
-
-            int count = matchesPlayedPerYear.containsKey(matches.get(i).getSeason()) ? matchesPlayedPerYear.get(matches.get(i).getSeason()): 0;
+        for (int i = 0; i < matches.size(); i++) {
+            int count = matchesPlayedPerYear.getOrDefault(matches.get(i).getSeason(), 0);
             matchesPlayedPerYear.put(matches.get(i).getSeason(), count + 1);
         }
-        System.out.println(matchesPlayedPerYear);
+        System.out.println("No. of Matches played per year :");
+        for (String key: matchesPlayedPerYear.keySet()){
+            System.out.println(key+" - "+matchesPlayedPerYear.get(key));
+        }
     }
 
     private static void findNumberOfMatchesWonByTeamsOverAllYears(List<Match> matches) {
+        HashMap<String, Integer> matchesWonByTeams = new HashMap<>();
+
+        for (int i = 0; i < matches.size(); i++) {
+            int count=matchesWonByTeams.getOrDefault(matches.get(i).getWinningTeam(),0);
+            matchesWonByTeams.put(matches.get(i).getWinningTeam(),count+1);
+
+        }
+        //There's a typo in teamnames so removed duplicate entry
+        int duplicateVal=matchesWonByTeams.get("Rising Pune Supergiant");
+        matchesWonByTeams.remove("Rising Pune Supergiant");
+        matchesWonByTeams.put("Rising Pune Supergiants",matchesWonByTeams.get("Rising Pune Supergiants")+duplicateVal);
+        matchesWonByTeams.remove(""); //Removed NoResult value
+        System.out.println("No.of matches won by teams over all years :");
+        for(String key:matchesWonByTeams.keySet()){
+            System.out.println(key+" - "+matchesWonByTeams.get(key));
+        }
     }
 
     private static void findNumberOfExtraRunsConcededByTeamIn2016(List<Match> matches, List<Delivery> deliveries) {
@@ -48,13 +64,13 @@ public class Main {
 
 
     private static List<Match> fetchMatchesData() throws IOException {
-        List<Match> matches=new ArrayList<>();
+        List<Match> matches = new ArrayList<>();
         String matchPath = "/home/sreedhar/IdeaProjects/Project1/matches.csv";
         BufferedReader br = new BufferedReader(new FileReader(matchPath));
         String line = br.readLine();
-        while ((line = br.readLine()) != null){
+        while ((line = br.readLine()) != null) {
             String[] records = line.split(",");
-            Match match=new Match();
+            Match match = new Match();
             match.setMatchId(records[0]);
             match.setSeason(records[1]);
             match.setCity(records[2]);
@@ -68,14 +84,14 @@ public class Main {
 
 
     private static List<Delivery> fetchDeliveriesData() throws IOException {
-        List<Delivery> deliveries=new ArrayList<>();
-        String deliveriesPath="/home/sreedhar/IdeaProjects/Project1/deliveries.csv";
-        BufferedReader br= new BufferedReader(new FileReader(deliveriesPath));
-        String line= br.readLine();
+        List<Delivery> deliveries = new ArrayList<>();
+        String deliveriesPath = "/home/sreedhar/IdeaProjects/Project1/deliveries.csv";
+        BufferedReader br = new BufferedReader(new FileReader(deliveriesPath));
+        String line = br.readLine();
 
-        while ((line = br.readLine()) != null){
-            String [] records=line.split(",");
-            Delivery delivery=new Delivery();
+        while ((line = br.readLine()) != null) {
+            String[] records = line.split(",");
+            Delivery delivery = new Delivery();
             delivery.setDeliveryMatchId(records[0]);
             delivery.setBowlingTeam(records[3]);
             delivery.setBowler(records[8]);
@@ -87,7 +103,6 @@ public class Main {
         }
         return deliveries;
     }
-
 
 
 }
