@@ -9,7 +9,7 @@ public class Delivery {
 
     private String extraRuns;
 
-    private String totalRuns;
+    private Double totalRuns;
 
 
     public String getDeliveryMatchId() {
@@ -20,7 +20,7 @@ public class Delivery {
         this.deliveryMatchId = deliveryMatchId;
     }
 
-    public String getBowlingTeam(String record) {
+    public String getBowlingTeam() {
         return bowlingTeam;
     }
 
@@ -44,11 +44,11 @@ public class Delivery {
         this.extraRuns = extraRuns;
     }
 
-    public String getTotalRuns() {
+    public Double getTotalRuns() {
         return totalRuns;
     }
 
-    public void setTotalRuns(String totalRuns) {
+    public void setTotalRuns(Double totalRuns) {
         this.totalRuns = totalRuns;
     }
 }

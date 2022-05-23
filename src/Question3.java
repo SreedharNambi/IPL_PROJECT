@@ -7,7 +7,7 @@ import java.util.HashMap;
 public class Question3 {
     public static void main(String[] args) throws IOException {
         String reqYear="2016";
-        String path2="/home/sreedhar/IdeaProjects/Project1/src/matches.csv";
+        String path2="/home/sreedhar/IdeaProjects/Project1/matches.csv";
         BufferedReader br1 = new BufferedReader(new FileReader(path2));
         String matchesLine=br1.readLine();
         String path1="/home/sreedhar/IdeaProjects/Project1/deliveries.csv";

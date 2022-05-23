@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Main {
     public static void main(String[] args) throws IOException {
@@ -54,12 +55,70 @@ public class Main {
     }
 
     private static void findNumberOfExtraRunsConcededByTeamIn2016(List<Match> matches, List<Delivery> deliveries) {
+        String reqYear="2016";
+        ArrayList<String> reqYearMatchIds=new ArrayList<>();
+        HashMap<String,Integer> extraRunsConcededByTeams=new HashMap<>();
+
+        for(int i=0;i<matches.size();i++){
+            if(reqYear.equals(matches.get(i).getSeason())){
+               reqYearMatchIds.add(matches.get(i).getMatchId());
+            }
+        }
+        for (int i=0;i<deliveries.size();i++){
+            if(reqYearMatchIds.contains(deliveries.get(i).getDeliveryMatchId())){
+                int counter=extraRunsConcededByTeams.getOrDefault(deliveries.get(i).getBowlingTeam(),0);
+                extraRunsConcededByTeams.put(deliveries.get(i).getBowlingTeam(), counter+Integer.valueOf(deliveries.get(i).getExtraRuns()));
+            }
+        }
+        System.out.println("Extra runs conceded by each team in 2016 :");
+        for (String key:extraRunsConcededByTeams.keySet()){
+            System.out.println(key+" - "+extraRunsConcededByTeams.get(key));
+        }
+
     }
 
     private static void findMostEconomicalBowlerIn2015(List<Match> matches, List<Delivery> deliveries) {
+        String reqBowler = "";
+        String reqYear = "2015";
+        ArrayList<String> reqYearMatchIds = new ArrayList<>();
+        HashMap<String, ArrayList<Double>> bowlerRecords = new HashMap<>();
+
+        for (int i = 0; i < matches.size(); i++) {
+            if (reqYear.equals(matches.get(i).getSeason())) {
+                reqYearMatchIds.add(matches.get(i).getMatchId());
+            }
+        }
+        for (int i = 0; i < deliveries.size(); i++) {
+            if (reqYearMatchIds.contains(deliveries.get(i).getDeliveryMatchId())) {
+                if (!(bowlerRecords.containsKey(deliveries.get(i).getBowler()))) {
+                    ArrayList<Double> bowlerStats = new ArrayList<>();
+                    bowlerStats.add(1.0);
+                    bowlerStats.add(deliveries.get(i).getTotalRuns());
+                    bowlerRecords.put(deliveries.get(i).getBowler(), bowlerStats);
+                } else {
+                    ArrayList<Double> prevRecord = bowlerRecords.get(deliveries.get(i).getBowler());
+                    prevRecord.set(0, prevRecord.get(0) + 1);
+                    prevRecord.set(1, prevRecord.get(1) + deliveries.get(i).getTotalRuns());
+                    bowlerRecords.put(deliveries.get(i).getBowler(), prevRecord);
+                }
+            }
+        }
+        double min = 100.0;
+        for (Map.Entry mapElement : bowlerRecords.entrySet()) {
+            ArrayList<Double> value = (ArrayList<Double>) mapElement.getValue();
+            double avg = value.get(1) * 6 / (value.get(0));
+            if (min > avg) {
+                min = avg;
+                reqBowler = (String) mapElement.getKey();
+//                System.out.println(min + "     " + reqBowler);
+            }
+
+        }
+        System.out.println("Most Economical Bowler of 2015 : "+reqBowler);
     }
 
     private static void findNumberOfMatchesWonByTeamInHomeGround(List<Match> matches) {
+
     }
 
 
@@ -96,7 +155,7 @@ public class Main {
             delivery.setBowlingTeam(records[3]);
             delivery.setBowler(records[8]);
             delivery.setExtraRuns(records[16]);
-            delivery.setTotalRuns(records[17]);
+            delivery.setTotalRuns(Double.valueOf(records[17]));
 
             deliveries.add(delivery);
 
