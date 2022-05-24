@@ -9,6 +9,23 @@ import java.util.List;
 import java.util.Map;
 
 public class Main {
+    public static final int MATCH_ID=0;
+
+    public static final int MATCH_SEASON=1;
+
+    public static final int MATCH_CITY=2;
+
+    public static final int MATCH_WINNING_TEAM=10;
+
+    public static final int DELIVERY_MATCH_ID=0;
+
+    public static final int BOWLING_TEAM=3;
+
+    public static final int BOWLER=8;
+
+    public static final int EXTRA_RUNS=16;
+
+    public static final int TOTAL_RUNS=17;
     public static void main(String[] args) throws IOException {
         List<Match> matches = fetchMatchesData();
         List<Delivery> deliveries = fetchDeliveriesData();
@@ -144,10 +161,10 @@ public class Main {
         while ((line = br.readLine()) != null) {
             String[] records = line.split(",");
             Match match = new Match();
-            match.setMatchId(records[0]);
-            match.setSeason(records[1]);
-            match.setCity(records[2]);
-            match.setWinningTeam(records[10]);
+            match.setMatchId(records[MATCH_ID]);
+            match.setSeason(records[MATCH_SEASON]);
+            match.setCity(records[MATCH_CITY]);
+            match.setWinningTeam(records[MATCH_WINNING_TEAM]);
 
             matches.add(match);
         }
@@ -165,11 +182,11 @@ public class Main {
         while ((line = br.readLine()) != null) {
             String[] records = line.split(",");
             Delivery delivery = new Delivery();
-            delivery.setDeliveryMatchId(records[0]);
-            delivery.setBowlingTeam(records[3]);
-            delivery.setBowler(records[8]);
-            delivery.setExtraRuns(records[16]);
-            delivery.setTotalRuns(Double.valueOf(records[17]));
+            delivery.setDeliveryMatchId(records[DELIVERY_MATCH_ID]);
+            delivery.setBowlingTeam(records[BOWLING_TEAM]);
+            delivery.setBowler(records[BOWLER]);
+            delivery.setExtraRuns(records[EXTRA_RUNS]);
+            delivery.setTotalRuns(Double.valueOf(records[TOTAL_RUNS]));
 
             deliveries.add(delivery);
 
