@@ -42,9 +42,9 @@ public class Main {
     private static void findNumberOfMatchesPlayedPerYear(List<Match> matches) {
         HashMap<String, Integer> matchesPlayedPerYear = new HashMap<String, Integer>();
 
-        for (int i = 0; i < matches.size(); i++) {
-            int count = matchesPlayedPerYear.getOrDefault(matches.get(i).getSeason(), 0);
-            matchesPlayedPerYear.put(matches.get(i).getSeason(), count + 1);
+        for (Match match : matches) {
+            int count = matchesPlayedPerYear.getOrDefault(match.getSeason(), 0);
+            matchesPlayedPerYear.put(match.getSeason(), count + 1);
         }
         System.out.println("No. of Matches played per year :");
         for (String key: matchesPlayedPerYear.keySet()){
@@ -76,15 +76,15 @@ public class Main {
         ArrayList<String> reqYearMatchIds=new ArrayList<>();
         HashMap<String,Integer> extraRunsConcededByTeams=new HashMap<>();
 
-        for(int i=0;i<matches.size();i++){
-            if(reqYear.equals(matches.get(i).getSeason())){
-               reqYearMatchIds.add(matches.get(i).getMatchId());
+        for (Match match : matches) {
+            if (reqYear.equals(match.getSeason())) {
+                reqYearMatchIds.add(match.getMatchId());
             }
         }
-        for (int i=0;i<deliveries.size();i++){
-            if(reqYearMatchIds.contains(deliveries.get(i).getDeliveryMatchId())){
-                int counter=extraRunsConcededByTeams.getOrDefault(deliveries.get(i).getBowlingTeam(),0);
-                extraRunsConcededByTeams.put(deliveries.get(i).getBowlingTeam(), counter+Integer.valueOf(deliveries.get(i).getExtraRuns()));
+        for (Delivery delivery : deliveries) {
+            if (reqYearMatchIds.contains(delivery.getDeliveryMatchId())) {
+                int counter = extraRunsConcededByTeams.getOrDefault(delivery.getBowlingTeam(), 0);
+                extraRunsConcededByTeams.put(delivery.getBowlingTeam(), counter + Integer.valueOf(delivery.getExtraRuns()));
             }
         }
         System.out.println("Extra runs conceded by each team in 2016 :");
@@ -100,23 +100,23 @@ public class Main {
         ArrayList<String> reqYearMatchIds = new ArrayList<>();
         HashMap<String, ArrayList<Double>> bowlerRecords = new HashMap<>();
 
-        for (int i = 0; i < matches.size(); i++) {
-            if (reqYear.equals(matches.get(i).getSeason())) {
-                reqYearMatchIds.add(matches.get(i).getMatchId());
+        for (Match match : matches) {
+            if (reqYear.equals(match.getSeason())) {
+                reqYearMatchIds.add(match.getMatchId());
             }
         }
-        for (int i = 0; i < deliveries.size(); i++) {
-            if (reqYearMatchIds.contains(deliveries.get(i).getDeliveryMatchId())) {
-                if (!(bowlerRecords.containsKey(deliveries.get(i).getBowler()))) {
+        for (Delivery delivery : deliveries) {
+            if (reqYearMatchIds.contains(delivery.getDeliveryMatchId())) {
+                if (!(bowlerRecords.containsKey(delivery.getBowler()))) {
                     ArrayList<Double> bowlerStats = new ArrayList<>();
                     bowlerStats.add(1.0);
-                    bowlerStats.add(deliveries.get(i).getTotalRuns());
-                    bowlerRecords.put(deliveries.get(i).getBowler(), bowlerStats);
+                    bowlerStats.add(delivery.getTotalRuns());
+                    bowlerRecords.put(delivery.getBowler(), bowlerStats);
                 } else {
-                    ArrayList<Double> prevRecord = bowlerRecords.get(deliveries.get(i).getBowler());
+                    ArrayList<Double> prevRecord = bowlerRecords.get(delivery.getBowler());
                     prevRecord.set(0, prevRecord.get(0) + 1);
-                    prevRecord.set(1, prevRecord.get(1) + deliveries.get(i).getTotalRuns());
-                    bowlerRecords.put(deliveries.get(i).getBowler(), prevRecord);
+                    prevRecord.set(1, prevRecord.get(1) + delivery.getTotalRuns());
+                    bowlerRecords.put(delivery.getBowler(), prevRecord);
                 }
             }
         }
@@ -139,12 +139,13 @@ public class Main {
         String team ="Sunrisers Hyderabad";
         String homeGround="Hyderabad";
         Integer numberOfMatchesWon=0;
-        for (int i=0;i<matches.size();i++){
-            if (team.equals(matches.get(i).getWinningTeam())){
-                if(homeGround.equals(matches.get(i).getCity())){
+        for (Match match : matches) {
+            if (team.equals(match.getWinningTeam())) {
+                if (homeGround.equals(match.getCity())) {
                     numberOfMatchesWon += 1;
                 }
-            }{
+            }
+            {
 
             }
 
@@ -155,7 +156,7 @@ public class Main {
 
     private static List<Match> fetchMatchesData() throws IOException {
         List<Match> matches = new ArrayList<>();
-        String matchPath = "/home/sreedhar/IdeaProjects/Project1/matches.csv";
+        String matchPath = "./matches.csv";
         BufferedReader br = new BufferedReader(new FileReader(matchPath));
         String line = br.readLine();
         while ((line = br.readLine()) != null) {
@@ -175,7 +176,7 @@ public class Main {
 
     private static List<Delivery> fetchDeliveriesData() throws IOException {
         List<Delivery> deliveries = new ArrayList<>();
-        String deliveriesPath = "/home/sreedhar/IdeaProjects/Project1/deliveries.csv";
+        String deliveriesPath = "./deliveries.csv";
         BufferedReader br = new BufferedReader(new FileReader(deliveriesPath));
         String line = br.readLine();
 
